@@ -1,0 +1,1 @@
+switch {case false: 1 case false: 2 default:  3}
