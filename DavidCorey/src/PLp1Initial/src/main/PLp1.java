@@ -4,6 +4,10 @@
  */
 package main;
 
+import ast.ASTGenerator;
+import ast.ASTNode;
+import ast.PLp1Exception;
+import ast.SourceVisitor;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -52,7 +56,8 @@ public class PLp1 {
 	    repl();
 	}
 	
-	public static void processCode(ANTLRInputStream code) throws IOException
+	public static void processCode(ANTLRInputStream code) throws IOException,
+                PLp1Exception
 	{
             // create a lexer that feeds off of input CharStream
             PLp1Lexer lexer = new PLp1Lexer(code);
@@ -62,8 +67,15 @@ public class PLp1 {
             PLp1Parser parser = new PLp1Parser(tokens);
             ParseTree tree = parser.program();
             
+            /*
+             * This code below will only work once the AST stuff is implemented!
+             * It will throw NullPointerException until fixed.
+             * 
+             */
             
-           
+            // ASTNode ast = (ASTNode) tree.accept(new ASTGenerator());
+            // System.out.println(ast.accept(new SourceVisitor()));
+
             System.out.println("Success!");
 	}
 	
@@ -72,7 +84,8 @@ public class PLp1 {
 	 * @param args
 	 * @throws FileNotFoundException 
 	 */
-	public static void main(String args []) throws FileNotFoundException, IOException
+	public static void main(String args []) throws FileNotFoundException, 
+                IOException, PLp1Exception
 	{
 		if (args.length > 0) {
 			processCode(new ANTLRFileStream(args[0]));			
