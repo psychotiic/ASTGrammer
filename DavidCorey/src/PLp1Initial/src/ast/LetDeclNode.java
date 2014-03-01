@@ -2,18 +2,15 @@ package ast;
 
 
 public class LetDeclNode extends ASTNode {
-    String var;
-    ASTNode valueExpr;
-
   public LetDeclNode() {
   }
 
   public String getVar() {
-    return this.var;
+    return this.getLabel(0);
   }
 
   public ASTNode getValueExpr() {
-    return this.valueExpr;
+    return this.getChild(0);
   }
 
   @Override

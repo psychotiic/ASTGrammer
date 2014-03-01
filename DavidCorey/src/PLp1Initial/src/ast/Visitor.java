@@ -6,8 +6,6 @@ public interface Visitor<T> {
 	public T visit(SubNode n) throws PLp1Exception;
 	public T visit(MultiplyNode n) throws PLp1Exception;
 	public T visit(DivideNode n) throws PLp1Exception;
-        public T visit(IdNode n) throws PLp1Exception;
-        public T visit(NumNode n) throws PLp1Exception;
         public T visit(LetNode n) throws PLp1Exception;
         public T visit(AndNode n) throws PLp1Exception;
         public T visit(ArgumentListNode n) throws PLp1Exception;

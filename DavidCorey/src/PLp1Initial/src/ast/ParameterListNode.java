@@ -3,12 +3,11 @@ package ast;
 import java.util.List;
 
 public class ParameterListNode extends ASTNode {
-  List<ASTNode> idList;
   public ParameterListNode() {
   }
 
-  public List getIdList() {
-  return this.idList;
+  public List<String> getIdList() {
+    return this.labels;
   }
 
   @Override

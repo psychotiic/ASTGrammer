@@ -3,11 +3,6 @@ package ast;
 //import java.util.ArrayList;
 
 public class ClassNode extends ASTNode {
-  String name;
-  ASTNode classVars;
-  ASTNode constructor;
-  ASTNode methods;
-
   public ClassNode() {
   }
 
@@ -15,25 +10,25 @@ public class ClassNode extends ASTNode {
    *  @return the name of the class
    */
   public String getName() {
-    return this.name;
+    return this.getLabel(0);
   }
 
   /** 
    *  @return the variables defined in the class
    */
   public ASTNode getClassVars() {
-    return this.classVars;
+    return this.getChild(0);
   }
 
   public ASTNode getConstructor() {
-    return this.constructor;
+    return this.getChild(1);
   }
 
   /** 
    *  @return the methods defined in the class
    */
   public ASTNode getMethods() {
-    return this.methods;
+    return this.getChild(2);
   }
 
   @Override

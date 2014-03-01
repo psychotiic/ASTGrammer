@@ -3,13 +3,11 @@ package ast;
 import java.util.List;
 
 public class SwitchCaseListNode extends ASTNode {
-    List<ASTNode> switchCases;
-
   public SwitchCaseListNode() {
   }
 
-  public List getSwitchCases() {
-    return this.switchCases;
+  public List<ASTNode> getSwitchCases() {
+    return this.children;
   }
 
   @Override

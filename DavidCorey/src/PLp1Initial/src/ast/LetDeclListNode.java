@@ -3,13 +3,12 @@ package ast;
 import java.util.List;
 
 public class LetDeclListNode extends ASTNode {
-    List<ASTNode> decls;
 
   public LetDeclListNode() {
   }
 
-  public List getDecls() {
-  return this.decls;
+  public List<ASTNode> getDecls() {
+        return this.children;
   }
 
   @Override

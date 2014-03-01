@@ -3,13 +3,11 @@ package ast;
 import java.util.List;
 
 public class InstanceVariableListNode extends ASTNode {
-  List<ASTNode> vars;
-  
   public InstanceVariableListNode() {
   }
 
-  public List getVars() {
-  return this.vars;
+  public List<String> getVars() {
+    return this.labels;
   }
 
   @Override

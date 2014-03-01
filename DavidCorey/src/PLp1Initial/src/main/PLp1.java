@@ -51,7 +51,8 @@ public class PLp1 {
 		} catch (Error e) {
 			System.out.println("Uncaught Interpreter Error: "+e);
 		} catch (Exception e) {
-			System.out.println("Uncaught Interpreter Exception: "+e);
+                        e.printStackTrace();
+			//System.out.println("Uncaught Interpreter Exception: "+e);
 		}
 	    repl();
 	}
@@ -73,8 +74,8 @@ public class PLp1 {
              * 
              */
             
-            // ASTNode ast = (ASTNode) tree.accept(new ASTGenerator());
-            // System.out.println(ast.accept(new SourceVisitor()));
+            ASTNode ast = (ASTNode) tree.accept(new ASTGenerator());
+            System.out.println(ast.accept(new SourceVisitor()));
 
             System.out.println("Success!");
 	}

@@ -3,9 +3,6 @@ package ast;
 //import java.util.List;
 
 public class SwitchNode extends ASTNode {
-  SwitchCaseListNode cases;
-  ASTNode defaultCase;
-  
   public SwitchNode() {
   }
 
@@ -13,11 +10,11 @@ public class SwitchNode extends ASTNode {
    *  @return the clauses
    */
   public SwitchCaseListNode getCases() {
-        return this.cases;
+        return (SwitchCaseListNode) this.getChild(0);
   }
 
   public ASTNode getDefaultCase() {
-        return this.defaultCase;
+        return this.getChild(1);
   }
 
   @Override

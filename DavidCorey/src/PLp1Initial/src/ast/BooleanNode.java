@@ -1,13 +1,11 @@
 package ast;
 
 public class BooleanNode extends ASTNode {
-  boolean value;
-
   public BooleanNode() {
   }
 
   public boolean getVal() {
-    return value;
+    return Boolean.valueOf(this.getLabel(0));
   }
 
   @Override

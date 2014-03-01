@@ -1,9 +1,6 @@
 package ast;
 
 public class CallNode extends ASTNode {
-  ASTNode function;
-  ASTNode args;
-  
   public CallNode() {
   }
 
@@ -16,14 +13,13 @@ public class CallNode extends ASTNode {
    *  @return the function being called
    */
   public ASTNode getFunc() {
-    return this.function;
+    return this.getChild(0);
   }
 
   /** 
    *  @return the list of arguments to the function
    */
   public ASTNode getArgs() {
-    return this.args;
+    return this.getChild(1);
   }
-
 }

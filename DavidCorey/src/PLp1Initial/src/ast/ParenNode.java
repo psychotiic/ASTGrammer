@@ -1,13 +1,11 @@
 package ast;
 
 public class ParenNode extends ASTNode {
-  ASTNode expr;
-  
   public ParenNode() {
   }
 
   public ASTNode getExpr() {
-  return this.expr;
+  return this.getChild(0);
   }
 
   @Override

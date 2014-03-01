@@ -1,8 +1,6 @@
 package ast;
 
 public class IntegerNode extends ASTNode {
-  int value;
-  
   public IntegerNode() {
   }
 
@@ -10,7 +8,7 @@ public class IntegerNode extends ASTNode {
    *  @return the constant
    */
   public int getVal() {
-    return value;
+    return Integer.parseInt(this.getLabel(0));
   }
   
   @Override

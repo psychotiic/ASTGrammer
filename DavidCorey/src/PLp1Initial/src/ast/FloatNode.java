@@ -1,8 +1,6 @@
 package ast;
 
 public class FloatNode extends ASTNode {
-  float value;
-  
   public FloatNode() {
   }
 
@@ -10,7 +8,7 @@ public class FloatNode extends ASTNode {
    *  @return the constant
    */
   public float getVal() {
-    return this.value;
+    return Float.valueOf(getLabel(0));
   }
 
   @Override

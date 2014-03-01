@@ -2,13 +2,11 @@ package ast;
 
 
 public class StringNode extends ASTNode {
-    String value;
-
   public StringNode() {
   }
 
   public String getString() {
-  return this.value;
+    return getLabel(0);
   }
 
   @Override

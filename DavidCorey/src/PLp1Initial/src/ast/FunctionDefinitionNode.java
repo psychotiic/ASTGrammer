@@ -3,10 +3,6 @@ package ast;
 //import java.util.ArrayList;
 
 public class FunctionDefinitionNode extends ASTNode {
-    String name;
-    ASTNode params;
-    ASTNode body;
-    
   public FunctionDefinitionNode() {
   }
 
@@ -14,26 +10,25 @@ public class FunctionDefinitionNode extends ASTNode {
    *  @return the name of the function
    */
   public String getName() {
-    return this.name;
+    return this.getLabel(0);
   }
 
   /** 
    *  @return the formal parameters to the function
    */
   public ASTNode getParams() {
-    return this.params;
+    return this.getChild(0);
   }
 
   /** 
    *  @return the body of the function
    */
   public ASTNode getBody() {
- return this.body;
+ return this.getChild(1);
   }
 
   @Override
   public Object accept(Visitor visitor) throws PLp1Exception {
         return visitor.visit(this);
   }
-
 }

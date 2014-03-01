@@ -1,8 +1,6 @@
 package ast;
 
 public class NotNode extends ASTNode {
-  ASTNode operand;
-  
   public NotNode() {
   }
   
@@ -15,7 +13,6 @@ public class NotNode extends ASTNode {
    *  @return the operand
    */
   public ASTNode getOperand() {
-    return this.operand;
+    return this.getChild(0);
   }
-
 }

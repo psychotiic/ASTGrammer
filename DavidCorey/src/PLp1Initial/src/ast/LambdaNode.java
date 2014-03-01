@@ -3,9 +3,6 @@ package ast;
 //import java.util.ArrayList;
 
 public class LambdaNode extends ASTNode {
-    ASTNode params;
-    ASTNode body;
-
   public LambdaNode() {
   }
 
@@ -13,14 +10,14 @@ public class LambdaNode extends ASTNode {
    *  @return the formal parameters to the function
    */
   public ASTNode getParams() {
-    return this.params;
+    return this.getChild(0);
   }
 
   /** 
    *  @return the body of the function
    */
   public ASTNode getBody() {
-    return this.body;
+    return this.getChild(1);
   }
 
   @Override

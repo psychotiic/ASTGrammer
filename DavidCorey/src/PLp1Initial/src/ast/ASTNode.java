@@ -14,11 +14,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public abstract class ASTNode {
 
-    protected String label;
+    protected List<String> labels;
     protected List<ASTNode> children;
 
     protected ASTNode() {
         children = new LinkedList<>();
+        labels = new LinkedList<>();
     }
 
     public ASTNode getChild(int i) {
@@ -29,12 +30,12 @@ public abstract class ASTNode {
         children.add(node);
     }
 
-    public String getLabel() {
-        return label;
+    public String getLabel(int i) {
+        return labels.get(i);
     }
 
     public void addLabel(String label) {
-        this.label = label;
+        labels.add(label);
     }
 
     /**

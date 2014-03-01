@@ -3,13 +3,12 @@ package ast;
 import java.util.List;
 
 public class MethodListNode extends ASTNode {
-List<ASTNode> methods;
 
   public MethodListNode() {
   }
 
-  public List getMethods() {
-    return this.methods;
+  public List<ASTNode> getMethods() {
+    return this.children;
   }
 
   @Override

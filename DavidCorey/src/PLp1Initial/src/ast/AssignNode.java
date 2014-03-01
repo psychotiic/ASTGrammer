@@ -14,19 +14,13 @@ public class AssignNode extends ASTNode {
    *  @return the left hand side of an assignment
    */
   public String getLhs() {
-  /* {return=the left hand side of an assignment
- }*/
-
-    return null;
+    return getLabel(0);
   }
 
   /** 
    *  @return the right hand side of an assignment
    */
   public ASTNode getRhs() {
-  /* {return=the right hand side of an assignment
- }*/
-
-    return null;
+    return getChild(0);
   }
 }

@@ -1,9 +1,6 @@
 package ast;
 
 public class SwitchCaseNode extends ASTNode {
-  ASTNode testExpr;
-  ASTNode resultExpr;
-  
   public SwitchCaseNode() {
   }
 
@@ -11,14 +8,14 @@ public class SwitchCaseNode extends ASTNode {
    *  @return the expression to test for truth
    */
   public ASTNode getTestExpr() {
-      return this.testExpr;
+      return this.getChild(0);
   }
 
   /** 
    *  @return the expression to evaluate if the test is true
    */
   public ASTNode getResultExpr() {
-    return this.resultExpr;
+    return this.getChild(1);
   }
 
   @Override

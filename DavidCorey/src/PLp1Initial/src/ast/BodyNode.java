@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BodyNode extends ASTNode {
-  ArrayList<ASTNode> body;
-
   public BodyNode() {
   }
 
-  public List getBody() {
-    return this.body;
+  public List<ASTNode> getBody() {
+    return this.children;
   }
 
   @Override

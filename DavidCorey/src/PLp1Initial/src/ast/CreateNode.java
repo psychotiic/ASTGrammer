@@ -1,8 +1,6 @@
 package ast;
 
 public class CreateNode extends ASTNode {
-  String className;
-  
   public CreateNode() {
   }
 
@@ -10,7 +8,7 @@ public class CreateNode extends ASTNode {
    *  @return the className
    */
   public String getClassName() {
-    return this.className;
+    return getLabel(0);
   }
   @Override
   public Object accept(Visitor visitor) throws PLp1Exception {

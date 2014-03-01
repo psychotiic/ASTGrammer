@@ -1,9 +1,6 @@
 package ast;
 
 public class MethodRefNode extends ASTNode {
-    String objectName;
-    String methodName;
-
   public MethodRefNode() {
   }
 
@@ -11,14 +8,14 @@ public class MethodRefNode extends ASTNode {
    *  @return the objectName
    */
   public String getObjectName() {
-    return this.objectName;
+    return this.getLabel(0);
   }
 
   /** 
    *  @return the methodName
    */
   public String getMethodName() {
-        return this.methodName;
+        return this.getLabel(1);
   }
 
   @Override

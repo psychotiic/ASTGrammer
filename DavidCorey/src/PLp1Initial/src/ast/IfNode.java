@@ -1,10 +1,6 @@
 package ast;
 
 public class IfNode extends ASTNode {
-  ASTNode testExpr;
-  ASTNode thenExpr;
-  ASTNode elseExpr;
-  
   public IfNode() {
   }
 
@@ -12,21 +8,21 @@ public class IfNode extends ASTNode {
    *  @return the test expression
    */
   public ASTNode getTestExpr() {
-    return this.testExpr;
+    return this.getChild(0);
   }
 
   /** 
    *  @return the expression to evaluate if test is true
    */
   public ASTNode getThenExpr() {
-    return this.thenExpr;
+    return this.getChild(1);
   }
 
   /** 
    *  @return the expression to evaluate if test if false
    */
   public ASTNode getElseExpr() {
-    return this.elseExpr;
+    return this.getChild(2);
   }
 
   @Override
