@@ -10,10 +10,11 @@ import ast.ASTNodeBuilderFactory.ASTNodeType;
  * @author steve
  */
 public class ASTNodeBuilder {
+ 
         private ASTNode node;
         
         protected ASTNodeBuilder(ASTNodeType nodeType) {
-           
+
             node = null;
 
             switch (nodeType) {
@@ -23,7 +24,7 @@ public class ASTNodeBuilder {
                 case AND:
                     node = new AndNode();
                     break;
-                case ARGLIST:
+                case ARGUMENTLIST:
                     node = new ArgumentListNode();
                     break;
                 case ASSIGN:
@@ -38,13 +39,13 @@ public class ASTNodeBuilder {
                 case CALL:
                     node = new CallNode();
                     break;
-                case CLASSDEF:
+                case CLASS:
                     node = new ClassNode();
                     break;
-                case CREATEEXPR:
+                case CREATE:
                     node = new CreateNode();
                     break;
-                case DIV:
+                case DIVIDE:
                     node = new DivideNode();
                     break;
                 case EQUAL:
@@ -53,42 +54,43 @@ public class ASTNodeBuilder {
                 case FLOAT:
                     node = new FloatNode();
                     break;
-                case INIT: // init node is just a function named init()
-                case FUNCDEF:
+                case FUNCTIONDEF:
                     node = new FunctionDefinitionNode();
                     break;
-                case GTEQUAL:
+                case GREATEREQUAL:
                     node = new GreaterEqualNode();
                     break;
                 case GREATER:
                     node = new GreaterNode();
                     break;
-                case IFEXPR:
+                case IF:
                     node = new IfNode();
                     break;
-
-                case INT:
+                case INSTANCEVARLIST:
+                    node = new InstanceVariableListNode();
+                    break;
+                case INTEGER:
                     node = new IntegerNode();
                     break;
                 case LAMBDA:
                     node = new LambdaNode();
                     break;
-                case LTEQUAL:
+                case LESSEQUAL:
                     node = new LessEqualNode();
                     break;
                 case LESS:
                     node = new LessNode();
                     break;
-                case LETDECL:
-                    node = new LetDeclNode();
-                    break;
                 case LETDECLLIST:
                     node = new LetDeclListNode();
                     break;
-                case LETEXPR:
+                case LETDECL:
+                    node = new LetDeclNode();
+                    break;
+                case LET:
                     node = new LetNode();
                     break;
-                case LISTEXPR:
+                case LIST:
                     node = new ListNode();
                     break;
                 case METHODLIST:
@@ -100,7 +102,7 @@ public class ASTNodeBuilder {
                 case METHODREF:
                     node = new MethodRefNode();
                     break;
-                case MULT:
+                case MULTIPLY:
                     node = new MultiplyNode();
                     break;
                 case NOTEQUAL:
@@ -115,11 +117,11 @@ public class ASTNodeBuilder {
                 case OR:
                     node = new OrNode();
                     break;
+                case PARAMETERLIST:
+                    node = new ParameterListNode();
+                    break;
                 case PAREN:
                     node = new ParenNode();
-                    break;
-                case PARAMLIST:
-                    node = new ParameterListNode();
                     break;
                 case PROGRAM:
                     node = new ProgramNode();
@@ -133,9 +135,6 @@ public class ASTNodeBuilder {
                 case SWITCHCASELIST:
                     node = new SwitchCaseListNode();
                     break;
-                case SWITCHEXPR:
-                    node = new SwitchNode();
-                    break;
                 case SWITCHCASE:
                     node = new SwitchCaseNode();
                     break;
@@ -145,13 +144,6 @@ public class ASTNodeBuilder {
                 case VARREF:
                     node = new VarRefNode();
                     break;
-                case EXPLIST:
-                    node = new BodyNode();
-                    break;
-                case VARIABLES:
-                    node = new InstanceVariableListNode();
-                    break;
-
                 default:
                     throw new UnsupportedOperationException("Invalid AST Node Type: " + nodeType);
             }
@@ -159,7 +151,7 @@ public class ASTNodeBuilder {
         }
 
         public ASTNodeBuilder addLabel(String label) {
-            node.addLabel(label);
+            node.setLabel(label);
             return this;
         }
 
@@ -168,7 +160,13 @@ public class ASTNodeBuilder {
             return this;
         }
         
+        public ASTNodeBuilder pushChild(ASTNode child) {
+            node.pushChild(child);
+            return this;
+        }
+
         public ASTNode build() {
             return node;
         }
+
 }

@@ -1,18 +1,30 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ast;
 
+import java.util.LinkedList;
 import java.util.List;
+import util.PLp1Error;
+import visitor.Visitor;
 
-public class LetDeclListNode extends ASTNode {
+/**
+ *
+ * @author carr
+ */
+public class LetDeclListNode extends ASTNode{
+    
+    public LetDeclListNode() {
+    }
+    
+     public List<ASTNode> getDecls() {
+        return children;
+    }
 
-  public LetDeclListNode() {
-  }
-
-  public List<ASTNode> getDecls() {
-        return this.children;
-  }
-
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
+    @Override
+    public Object accept(Visitor visitor) throws PLp1Error {
         return visitor.visit(this);
-  }
+    }
+    
 }

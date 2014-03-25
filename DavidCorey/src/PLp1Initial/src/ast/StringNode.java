@@ -1,17 +1,26 @@
+/**
+ *
+ */
 package ast;
 
+import visitor.Visitor;
+import util.PLp1Error;
 
+/**
+ * @author carr
+ *
+ */
 public class StringNode extends ASTNode {
-  public StringNode() {
-  }
 
-  public String getString() {
-    return getLabel(0);
-  }
+    public StringNode() {
+    }
 
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
+    public String getString() {
+        return label;
+    }
+
+    @Override
+    public Object accept(Visitor visitor) throws PLp1Error {
         return visitor.visit(this);
-  }
-
+    }
 }

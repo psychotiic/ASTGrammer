@@ -1,15 +1,30 @@
+/**
+ * 
+ */
 package ast;
 
+import visitor.Visitor;
+import util.PLp1Error;
+
+/**
+ * @author carr
+ *
+ */
 public class BooleanNode extends ASTNode {
-  public BooleanNode() {
-  }
 
-  public boolean getVal() {
-    return Boolean.valueOf(this.getLabel(0));
-  }
+	public BooleanNode() {
+	}
 
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
-    return visitor.visit(this);
-  }
+	/**
+	 * @return the constant
+	 */
+	public boolean getVal() {
+		return getLabel().equals("true");
+	}
+
+	@Override
+	public Object accept(Visitor visitor) throws PLp1Error {
+		return visitor.visit(this);
+	}
+
 }

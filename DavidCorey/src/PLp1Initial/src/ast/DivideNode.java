@@ -3,6 +3,8 @@
  */
 package ast;
 
+import visitor.Visitor;
+import util.PLp1Error;
 
 /**
  * @author carr
@@ -18,7 +20,8 @@ public class DivideNode extends BinaryNode {
 	 * @see ast.ASTNode#accept(patterns.Visitor)
 	 */
 	@Override
-	public Object accept(Visitor visitor) throws PLp1Exception {
+	public Object accept(Visitor visitor) throws PLp1Error {
 		return visitor.visit(this);
 	}
+
 }

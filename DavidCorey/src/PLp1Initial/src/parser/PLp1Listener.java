@@ -33,28 +33,6 @@ public interface PLp1Listener extends ParseTreeListener {
 	void exitMethods(@NotNull PLp1Parser.MethodsContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link PLp1Parser#functionDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionDef(@NotNull PLp1Parser.FunctionDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PLp1Parser#functionDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionDef(@NotNull PLp1Parser.FunctionDefContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link PLp1Parser#classDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterClassDef(@NotNull PLp1Parser.ClassDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PLp1Parser#classDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitClassDef(@NotNull PLp1Parser.ClassDefContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link PLp1Parser#expressionList}.
 	 * @param ctx the parse tree
 	 */
@@ -99,15 +77,15 @@ public interface PLp1Listener extends ParseTreeListener {
 	void exitVarRef(@NotNull PLp1Parser.VarRefContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link PLp1Parser#lambdaExpr}.
+	 * Enter a parse tree produced by {@link PLp1Parser#function}.
 	 * @param ctx the parse tree
 	 */
-	void enterLambdaExpr(@NotNull PLp1Parser.LambdaExprContext ctx);
+	void enterFunction(@NotNull PLp1Parser.FunctionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PLp1Parser#lambdaExpr}.
+	 * Exit a parse tree produced by {@link PLp1Parser#function}.
 	 * @param ctx the parse tree
 	 */
-	void exitLambdaExpr(@NotNull PLp1Parser.LambdaExprContext ctx);
+	void exitFunction(@NotNull PLp1Parser.FunctionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link PLp1Parser#letDecl}.
@@ -132,15 +110,15 @@ public interface PLp1Listener extends ParseTreeListener {
 	void exitIfExpr(@NotNull PLp1Parser.IfExprContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link PLp1Parser#letExpr}.
+	 * Enter a parse tree produced by {@link PLp1Parser#letExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterLetExpr(@NotNull PLp1Parser.LetExprContext ctx);
+	void enterLetExp(@NotNull PLp1Parser.LetExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PLp1Parser#letExpr}.
+	 * Exit a parse tree produced by {@link PLp1Parser#letExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitLetExpr(@NotNull PLp1Parser.LetExprContext ctx);
+	void exitLetExp(@NotNull PLp1Parser.LetExpContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link PLp1Parser#createExpr}.
@@ -154,6 +132,17 @@ public interface PLp1Listener extends ParseTreeListener {
 	void exitCreateExpr(@NotNull PLp1Parser.CreateExprContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link PLp1Parser#classDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDefinition(@NotNull PLp1Parser.ClassDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PLp1Parser#classDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDefinition(@NotNull PLp1Parser.ClassDefinitionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link PLp1Parser#listExp}.
 	 * @param ctx the parse tree
 	 */
@@ -165,15 +154,37 @@ public interface PLp1Listener extends ParseTreeListener {
 	void exitListExp(@NotNull PLp1Parser.ListExpContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link PLp1Parser#switchExpr}.
+	 * Enter a parse tree produced by {@link PLp1Parser#lambdaExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterSwitchExpr(@NotNull PLp1Parser.SwitchExprContext ctx);
+	void enterLambdaExp(@NotNull PLp1Parser.LambdaExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PLp1Parser#switchExpr}.
+	 * Exit a parse tree produced by {@link PLp1Parser#lambdaExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitSwitchExpr(@NotNull PLp1Parser.SwitchExprContext ctx);
+	void exitLambdaExp(@NotNull PLp1Parser.LambdaExpContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link PLp1Parser#switchExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterSwitchExp(@NotNull PLp1Parser.SwitchExpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PLp1Parser#switchExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitSwitchExp(@NotNull PLp1Parser.SwitchExpContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link PLp1Parser#element}.
+	 * @param ctx the parse tree
+	 */
+	void enterElement(@NotNull PLp1Parser.ElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PLp1Parser#element}.
+	 * @param ctx the parse tree
+	 */
+	void exitElement(@NotNull PLp1Parser.ElementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link PLp1Parser#letDecls}.

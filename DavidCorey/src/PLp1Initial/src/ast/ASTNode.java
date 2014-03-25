@@ -6,7 +6,8 @@ package ast;
 import java.util.LinkedList;
 import java.util.List;
 import org.antlr.v4.runtime.tree.ParseTree;
-
+import visitor.Visitor;
+import util.PLp1Error;
 
 /**
  * @author carr
@@ -14,12 +15,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public abstract class ASTNode {
 
-    protected List<String> labels;
+    protected String label;
     protected List<ASTNode> children;
 
     protected ASTNode() {
         children = new LinkedList<>();
-        labels = new LinkedList<>();
     }
 
     public ASTNode getChild(int i) {
@@ -30,12 +30,20 @@ public abstract class ASTNode {
         children.add(node);
     }
 
-    public String getLabel(int i) {
-        return labels.get(i);
+    public void pushChild(ASTNode node) {
+        children.add(0, node);
     }
 
-    public void addLabel(String label) {
-        labels.add(label);
+    public void setChild(int i, ASTNode node) {
+        children.set(i, node);
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     /**
@@ -49,5 +57,5 @@ public abstract class ASTNode {
      * @return an Object
      * @throws PLp1Error TODO
      */
-    public abstract Object accept(Visitor visitor) throws PLp1Exception;
+    public abstract Object accept(Visitor visitor) throws PLp1Error;
 }

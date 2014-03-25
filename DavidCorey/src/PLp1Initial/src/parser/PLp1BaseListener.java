@@ -45,32 +45,6 @@ public class PLp1BaseListener implements PLp1Listener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterFunctionDef(@NotNull PLp1Parser.FunctionDefContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitFunctionDef(@NotNull PLp1Parser.FunctionDefContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterClassDef(@NotNull PLp1Parser.ClassDefContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitClassDef(@NotNull PLp1Parser.ClassDefContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterExpressionList(@NotNull PLp1Parser.ExpressionListContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -123,13 +97,13 @@ public class PLp1BaseListener implements PLp1Listener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterLambdaExpr(@NotNull PLp1Parser.LambdaExprContext ctx) { }
+	@Override public void enterFunction(@NotNull PLp1Parser.FunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitLambdaExpr(@NotNull PLp1Parser.LambdaExprContext ctx) { }
+	@Override public void exitFunction(@NotNull PLp1Parser.FunctionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -162,13 +136,13 @@ public class PLp1BaseListener implements PLp1Listener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterLetExpr(@NotNull PLp1Parser.LetExprContext ctx) { }
+	@Override public void enterLetExp(@NotNull PLp1Parser.LetExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitLetExpr(@NotNull PLp1Parser.LetExprContext ctx) { }
+	@Override public void exitLetExp(@NotNull PLp1Parser.LetExpContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -188,6 +162,19 @@ public class PLp1BaseListener implements PLp1Listener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterClassDefinition(@NotNull PLp1Parser.ClassDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitClassDefinition(@NotNull PLp1Parser.ClassDefinitionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterListExp(@NotNull PLp1Parser.ListExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -201,13 +188,39 @@ public class PLp1BaseListener implements PLp1Listener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterSwitchExpr(@NotNull PLp1Parser.SwitchExprContext ctx) { }
+	@Override public void enterLambdaExp(@NotNull PLp1Parser.LambdaExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitSwitchExpr(@NotNull PLp1Parser.SwitchExprContext ctx) { }
+	@Override public void exitLambdaExp(@NotNull PLp1Parser.LambdaExpContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterSwitchExp(@NotNull PLp1Parser.SwitchExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitSwitchExp(@NotNull PLp1Parser.SwitchExpContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterElement(@NotNull PLp1Parser.ElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitElement(@NotNull PLp1Parser.ElementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -4,10 +4,7 @@
  */
 package main;
 
-import ast.ASTGenerator;
 import ast.ASTNode;
-import ast.PLp1Exception;
-import ast.SourceVisitor;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,14 +12,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import parser.PLp1Lexer;
 
 import parser.PLp1Parser;
+
+import org.antlr.v4.runtime.tree.ParseTree;
+import util.PLp1Error;
+import visitor.ASTGenerator;
+import visitor.SourceVisitor;
 
 
 /**
@@ -51,14 +54,12 @@ public class PLp1 {
 		} catch (Error e) {
 			System.out.println("Uncaught Interpreter Error: "+e);
 		} catch (Exception e) {
-                        e.printStackTrace();
-			//System.out.println("Uncaught Interpreter Exception: "+e);
+			System.out.println("Uncaught Interpreter Exception: "+e);
 		}
 	    repl();
 	}
 	
-	public static void processCode(ANTLRInputStream code) throws IOException,
-                PLp1Exception
+	public static void processCode(ANTLRInputStream code) throws IOException
 	{
             // create a lexer that feeds off of input CharStream
             PLp1Lexer lexer = new PLp1Lexer(code);
@@ -66,18 +67,15 @@ public class PLp1 {
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             // create a parser that feeds off the tokens buffer
             PLp1Parser parser = new PLp1Parser(tokens);
-            ParseTree tree = parser.program();
+            ParseTree t = parser.program();
             
-            /*
-             * This code below will only work once the AST stuff is implemented!
-             * It will throw NullPointerException until fixed.
-             * 
-             */
+            ASTNode ast = (ASTNode)t.accept(new ASTGenerator());
             
-            ASTNode ast = (ASTNode) tree.accept(new ASTGenerator());
-            System.out.println(ast.accept(new SourceVisitor()));
-
-            System.out.println("Success!");
+            try {
+                System.out.println(ast.accept(new SourceVisitor()));
+            } catch (PLp1Error ex) {
+                Logger.getLogger(PLp1.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 	
 
@@ -85,8 +83,7 @@ public class PLp1 {
 	 * @param args
 	 * @throws FileNotFoundException 
 	 */
-	public static void main(String args []) throws FileNotFoundException, 
-                IOException, PLp1Exception
+	public static void main(String args []) throws FileNotFoundException, IOException
 	{
 		if (args.length > 0) {
 			processCode(new ANTLRFileStream(args[0]));			

@@ -28,20 +28,6 @@ public interface PLp1Visitor<T> extends ParseTreeVisitor<T> {
 	T visitMethods(@NotNull PLp1Parser.MethodsContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link PLp1Parser#functionDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionDef(@NotNull PLp1Parser.FunctionDefContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link PLp1Parser#classDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitClassDef(@NotNull PLp1Parser.ClassDefContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link PLp1Parser#expressionList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -70,11 +56,11 @@ public interface PLp1Visitor<T> extends ParseTreeVisitor<T> {
 	T visitVarRef(@NotNull PLp1Parser.VarRefContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link PLp1Parser#lambdaExpr}.
+	 * Visit a parse tree produced by {@link PLp1Parser#function}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLambdaExpr(@NotNull PLp1Parser.LambdaExprContext ctx);
+	T visitFunction(@NotNull PLp1Parser.FunctionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link PLp1Parser#letDecl}.
@@ -91,11 +77,11 @@ public interface PLp1Visitor<T> extends ParseTreeVisitor<T> {
 	T visitIfExpr(@NotNull PLp1Parser.IfExprContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link PLp1Parser#letExpr}.
+	 * Visit a parse tree produced by {@link PLp1Parser#letExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLetExpr(@NotNull PLp1Parser.LetExprContext ctx);
+	T visitLetExp(@NotNull PLp1Parser.LetExpContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link PLp1Parser#createExpr}.
@@ -105,6 +91,13 @@ public interface PLp1Visitor<T> extends ParseTreeVisitor<T> {
 	T visitCreateExpr(@NotNull PLp1Parser.CreateExprContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link PLp1Parser#classDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDefinition(@NotNull PLp1Parser.ClassDefinitionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link PLp1Parser#listExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -112,11 +105,25 @@ public interface PLp1Visitor<T> extends ParseTreeVisitor<T> {
 	T visitListExp(@NotNull PLp1Parser.ListExpContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link PLp1Parser#switchExpr}.
+	 * Visit a parse tree produced by {@link PLp1Parser#lambdaExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSwitchExpr(@NotNull PLp1Parser.SwitchExprContext ctx);
+	T visitLambdaExp(@NotNull PLp1Parser.LambdaExpContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link PLp1Parser#switchExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitchExp(@NotNull PLp1Parser.SwitchExpContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link PLp1Parser#element}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElement(@NotNull PLp1Parser.ElementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link PLp1Parser#letDecls}.

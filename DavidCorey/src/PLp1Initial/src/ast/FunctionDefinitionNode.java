@@ -1,34 +1,51 @@
+/**
+ * 
+ */
 package ast;
 
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
+import visitor.Visitor;
+
+import util.PLp1Error;
+
+/**
+ * This node represents a function definition
+ * @author carr
+ *
+ */
 public class FunctionDefinitionNode extends ASTNode {
-  public FunctionDefinitionNode() {
-  }
 
-  /** 
-   *  @return the name of the function
-   */
-  public String getName() {
-    return this.getLabel(0);
-  }
+	public FunctionDefinitionNode() {
+	}
 
-  /** 
-   *  @return the formal parameters to the function
-   */
-  public ASTNode getParams() {
-    return this.getChild(0);
-  }
+	/**
+	 * @return the name of the function
+	 */
+	public String getName() {
+		return label;
+	}
 
-  /** 
-   *  @return the body of the function
-   */
-  public ASTNode getBody() {
- return this.getChild(1);
-  }
+	/**
+	 * @return the formal parameters to the function
+	 */
+	public ASTNode getParams() {
+		return getChild(0);
+	}
 
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
-        return visitor.visit(this);
-  }
+	/**
+	 * @return the body of the function
+	 */
+	public ASTNode getBody() {
+		return getChild(1);
+	}
+
+	/* (non-Javadoc)
+	 * @see ast.ASTNode#accept(visitor.Visitor)
+	 */
+	@Override
+	public Object accept(Visitor visitor) throws PLp1Error {
+		return visitor.visit(this);
+	}
+
 }

@@ -1,24 +1,40 @@
+/**
+ * 
+ */
 package ast;
 
-//import java.util.List;
+import java.util.List;
+import visitor.Visitor;
+import util.PLp1Error;
 
+/**
+ * This class represents a switch expression
+ * @author carr
+ *
+ */
 public class SwitchNode extends ASTNode {
-  public SwitchNode() {
-  }
 
-  /** 
-   *  @return the clauses
-   */
-  public SwitchCaseListNode getCases() {
-        return (SwitchCaseListNode) this.getChild(0);
-  }
+	public SwitchNode() {
+	}
 
-  public ASTNode getDefaultCase() {
-        return this.getChild(1);
-  }
+	/**
+	 * @return the clauses
+	 */
+	public SwitchCaseListNode getCases() {
+		return (SwitchCaseListNode)getChild(0);
+	}
+        
+        public ASTNode getDefaultCase() {
+            return getChild(1);
+        }
 
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
-        return visitor.visit(this);
-  }
+
+	/* (non-Javadoc)
+	 * @see ast.ASTNode#accept(visitor.Visitor)
+	 */
+	@Override
+	public Object accept(Visitor visitor) throws PLp1Error {
+		return visitor.visit(this);
+	}
+
 }

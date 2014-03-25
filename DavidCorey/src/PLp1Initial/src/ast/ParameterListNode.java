@@ -1,17 +1,29 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ast;
 
 import java.util.List;
+import util.PLp1Error;
+import visitor.Visitor;
 
-public class ParameterListNode extends ASTNode {
-  public ParameterListNode() {
-  }
+/**
+ *
+ * @author carr
+ */
+public class ParameterListNode extends ASTNode{
 
-  public List<String> getIdList() {
-    return this.labels;
-  }
+    public ParameterListNode() {
+    }
 
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
+    public List<ASTNode> getIdList() {
+        return children;
+    }
+    
+    @Override
+    public Object accept(Visitor visitor) throws PLp1Error {
         return visitor.visit(this);
-  }
+    }
+    
 }

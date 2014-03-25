@@ -1,17 +1,33 @@
+/**
+ * 
+ */
 package ast;
 
-public class CreateNode extends ASTNode {
-  public CreateNode() {
-  }
+import visitor.Visitor;
+import util.PLp1Error;
 
-  /** 
-   *  @return the className
-   */
-  public String getClassName() {
-    return getLabel(0);
-  }
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
-        return visitor.visit(this);
-  }
+/**
+ * @author carr
+ *
+ */
+public class CreateNode extends ASTNode {
+	
+	public CreateNode() {
+	}
+
+	/**
+	 * @return the className
+	 */
+	public String getClassName() {
+		return getLabel();
+	}
+
+	/* (non-Javadoc)
+	 * @see ast.ASTNode#accept(visitor.Visitor)
+	 */
+	@Override
+	public Object accept(Visitor visitor) throws PLp1Error {
+		return visitor.visit(this);
+	}
+
 }

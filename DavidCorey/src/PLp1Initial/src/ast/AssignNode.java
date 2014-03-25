@@ -1,26 +1,40 @@
+/**
+ * 
+ */
 package ast;
 
-public class AssignNode extends ASTNode {
-  public AssignNode() {
-      
-  }
+import visitor.Visitor;
+import util.PLp1Error;
 
-  @Override
-  public Object accept(Visitor visitor) throws PLp1Exception {
-        return visitor.visit(this);
-  }
+/**
+ * This class represents an assigmnent expression
+ * @author carr
+ *
+ */
+public class AssignNode extends ASTNode{
+	
+	public AssignNode() {
+	}
+	
+	/* (non-Javadoc)
+	 * @see ast.ASTNode#accept(visitor.Visitor)
+	 */
+	public Object accept(Visitor v) throws PLp1Error { 
+		return v.visit(this); 
+	}
 
-  /** 
-   *  @return the left hand side of an assignment
-   */
-  public String getLhs() {
-    return getLabel(0);
-  }
+	/**
+	 * @return the left hand side of an assignment
+	 */
+	public String getLhs() {
+		return getChild(0).getLabel();
+	}
 
-  /** 
-   *  @return the right hand side of an assignment
-   */
-  public ASTNode getRhs() {
-    return getChild(0);
-  }
+	/**
+	 * @return the right hand side of an assignment
+	 */
+	public ASTNode getRhs() {
+		return getChild(1);
+	}
+
 }
