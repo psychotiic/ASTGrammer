@@ -127,9 +127,7 @@ public class SourceVisitor implements Visitor<String> {
      */
     @Override
     public String visit(SwitchCaseNode n) throws PLp1Error {
-        return "[ " + n.getTestExpr().accept(this) + " " + n.getResultExpr().accept(this) + "]";
-
-
+	return "case " + n.getTestExpr().accept(this) + ": " + n.getResultExpr().accept(this);
     }
 
     /* (non-Javadoc)

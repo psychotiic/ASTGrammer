@@ -23,8 +23,10 @@ import parser.PLp1Lexer;
 import parser.PLp1Parser;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import util.Environment;
 import util.PLp1Error;
 import visitor.ASTGenerator;
+import visitor.EvalVisitor;
 import visitor.SourceVisitor;
 
 
@@ -72,9 +74,10 @@ public class PLp1 {
             ASTNode ast = (ASTNode)t.accept(new ASTGenerator());
             
             try {
-                System.out.println(ast.accept(new SourceVisitor()));
+                //System.out.println(ast.accept(new SourceVisitor()));
+                System.out.println(ast.accept(new EvalVisitor(new Environment())));
             } catch (PLp1Error ex) {
-                Logger.getLogger(PLp1.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println(ex.getMessage());
             }
 	}
 	

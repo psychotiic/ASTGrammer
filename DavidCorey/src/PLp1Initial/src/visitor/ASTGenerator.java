@@ -29,6 +29,7 @@ public class ASTGenerator extends AbstractParseTreeVisitor<ASTNode> implements P
     public ASTNode visitExpression(@NotNull PLp1Parser.ExpressionContext ctx) {
 
         ASTNode node = null;
+        
 
         if (ctx.getChildCount() == 3) {
             if (ctx.getChild(1) instanceof TerminalNode) {
@@ -62,6 +63,7 @@ public class ASTGenerator extends AbstractParseTreeVisitor<ASTNode> implements P
                                 .addChild(ctx.getChild(0).accept(this))
                                 .addChild(ctx.getChild(2).accept(this))
                                 .build();
+                        break;
                     case PLp1Parser.NE:
                         node = factory.makeASTNodeBuilder(ASTNodeType.NOTEQUAL)
                                 .addChild(ctx.getChild(0).accept(this))
@@ -159,7 +161,7 @@ public class ASTGenerator extends AbstractParseTreeVisitor<ASTNode> implements P
     public ASTNode visitDefaultCase(@NotNull PLp1Parser.DefaultCaseContext ctx) {
         ASTNodeBuilder builder = factory.makeASTNodeBuilder(ASTNodeType.BODY);
 
-        for (int i = 1; i < ctx.getChildCount(); i++) {
+        for (int i = 2; i < ctx.getChildCount(); i++) {
             builder.addChild(ctx.getChild(i).accept(this));
         }
 

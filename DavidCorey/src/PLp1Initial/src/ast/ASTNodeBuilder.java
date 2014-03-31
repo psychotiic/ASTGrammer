@@ -132,6 +132,9 @@ public class ASTNodeBuilder {
                 case SUB:
                     node = new SubNode();
                     break;
+                case SWITCH:
+                    node = new SwitchNode();
+                    break;
                 case SWITCHCASELIST:
                     node = new SwitchCaseListNode();
                     break;

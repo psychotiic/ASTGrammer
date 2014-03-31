@@ -218,7 +218,7 @@ FLOATNUM : INTNUM '.' DIGIT+ EXPONENT?
 STRING : '\'' ( ~['\''] )* '\''
        ;
 
-NEWLINE : '\r'?'\n' ;
+NEWLINE : '\r'?'\n' -> skip ;
 
 WS : [ \t]+ -> skip ; 
 
