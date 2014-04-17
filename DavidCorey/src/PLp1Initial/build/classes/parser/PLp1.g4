@@ -51,7 +51,8 @@ expressionList :
                ;
 
 expression :
-                  expression MULT expression     
+                  expression INVOKE LP argumentList RP  
+                | expression MULT expression     
                 | expression DIV expression     
                 | expression ADD expression     
                 | expression SUB expression     
@@ -73,7 +74,7 @@ expression :
                 | switchExp                     
                 | letExp                        
                 | LP expression RP            
-                | expression INVOKE LP argumentList RP    
+                  
            ;
 
 varRef :

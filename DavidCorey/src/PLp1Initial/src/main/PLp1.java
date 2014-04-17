@@ -17,14 +17,17 @@ import java.util.logging.Logger;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.TokenStream;
 import parser.PLp1Lexer;
 
 import parser.PLp1Parser;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import util.BaseEnvironment;
 import util.Environment;
 import util.PLp1Error;
+import util.Value;
 import visitor.ASTGenerator;
 import visitor.EvalVisitor;
 import visitor.SourceVisitor;
@@ -35,6 +38,9 @@ import visitor.SourceVisitor;
  * @author carr
  */
 public class PLp1 {
+    
+    	private static Environment baseEnv;
+
 	private static String getUserInput() throws IOException {
 		String curLine = ""; // Line read from standard in
 		
@@ -66,7 +72,7 @@ public class PLp1 {
             // create a lexer that feeds off of input CharStream
             PLp1Lexer lexer = new PLp1Lexer(code);
             // create a buffer of tokens pulled from the lexer
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            CommonTokenStream tokens = new CommonTokenStream((TokenSource) lexer);
             // create a parser that feeds off the tokens buffer
             PLp1Parser parser = new PLp1Parser(tokens);
             ParseTree t = parser.program();
@@ -74,10 +80,10 @@ public class PLp1 {
             ASTNode ast = (ASTNode)t.accept(new ASTGenerator());
             
             try {
-                //System.out.println(ast.accept(new SourceVisitor()));
-                System.out.println(ast.accept(new EvalVisitor(new Environment())));
+                Value v = (Value) ast.accept(new EvalVisitor(baseEnv));
+                System.out.println(v);
             } catch (PLp1Error ex) {
-                System.err.println(ex.getMessage());
+                System.err.println("PLp1Error: "+ex);
             }
 	}
 	
@@ -88,6 +94,7 @@ public class PLp1 {
 	 */
 	public static void main(String args []) throws FileNotFoundException, IOException
 	{
+		baseEnv = new BaseEnvironment();
 		if (args.length > 0) {
 			processCode(new ANTLRFileStream(args[0]));			
 		} else {

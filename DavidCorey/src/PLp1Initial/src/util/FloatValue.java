@@ -1,16 +1,38 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * 
  */
 package util;
 
 /**
+ * @author carr
  *
- * @author Carr
  */
-public class FloatValue extends Value<Float> {
+public class FloatValue extends Value {
 
-    public FloatValue(float val) {
-        this.val = val;
+	/**
+	 * 
+	 */
+	public FloatValue() {
+	}
+        
+        public Value addValue(Object val) {
+          this.val = val;
+          return this;
+        }
+	
+	public float getFloat() {
+		return ((Float)val).floatValue();
+	}
+
+	@Override
+	public String toString() {
+		return val.toString();
+	}
+
+    @Override
+    public boolean equal(Object val) {
+        return (val instanceof FloatValue &&
+                ((FloatValue)val).getFloat() == getFloat());
     }
+
 }

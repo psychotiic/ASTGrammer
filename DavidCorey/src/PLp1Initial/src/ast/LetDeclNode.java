@@ -17,11 +17,11 @@ public class LetDeclNode extends ASTNode {
     }
 
     public String getVar() {
-        return label;
+        return getChild(0).getLabel();
     }
 
     public ASTNode getValueExpr() {
-        return getChild(0);
+        return getChild(1);
     }
 
     @Override

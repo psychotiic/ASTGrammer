@@ -1,15 +1,36 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * 
  */
 package util;
 
 /**
+ * @author carr
  *
- * @author Carr
  */
-public class NullValue extends Value<Object> {
-    public NullValue() {
-        this.val = null;
+public class NullValue extends Value {
+
+	/**
+	 * 
+	 */
+	public NullValue() {
+	}
+
+	/* (non-Javadoc)
+	 * @see util.Value#toString()
+	 */
+	@Override
+	public String toString() {
+		return "null";
+	}
+
+    @Override
+    public Value addValue(Object val) {
+        return this;
     }
+
+    @Override
+    public boolean equal(Object val) {
+        return val instanceof NullValue;
+    }
+
 }

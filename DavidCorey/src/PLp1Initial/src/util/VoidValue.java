@@ -7,28 +7,27 @@ package util;
  * @author carr
  *
  */
-public class StringValue extends Value {
+public class VoidValue extends Value {
 
 	/**
 	 * 
 	 */
-	public StringValue() {
+	public VoidValue() {
+		this.val = null;
 	}
 	
-	@Override
 	public String toString() {
-		return "'" + val.toString() + "'";
+		return "#void";
 	}
 
     @Override
     public Value addValue(Object val) {
-        this.val = val;
         return this;
     }
 
     @Override
     public boolean equal(Object val) {
-        return (val instanceof StringValue &&
-                val.toString().equals(toString()));
-    }	
+        return val instanceof VoidValue;
+    }
+
 }

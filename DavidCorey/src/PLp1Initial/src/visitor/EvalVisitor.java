@@ -1,540 +1,544 @@
-/**
- *
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package visitor;
 
-import ast.*;
-import functions.BuiltinFunction;
-import functions.*;
+import ast.ASTNode;
+import ast.AddNode;
+import ast.AndNode;
+import ast.ArgumentListNode;
+import ast.AssignNode;
+import ast.BodyNode;
+import ast.BooleanNode;
+import ast.CallNode;
+import ast.ClassNode;
+import ast.CreateNode;
+import ast.DivideNode;
+import ast.EqualNode;
+import ast.FloatNode;
+import ast.FunctionDefinitionNode;
+import ast.GreaterEqualNode;
+import ast.GreaterNode;
+import ast.IfNode;
+import ast.InstanceVariableListNode;
+import ast.IntegerNode;
+import ast.LambdaNode;
+import ast.LessEqualNode;
+import ast.LessNode;
+import ast.LetDeclListNode;
+import ast.LetDeclNode;
+import ast.LetNode;
+import ast.ListNode;
+import ast.MethodListNode;
+import ast.MethodNode;
+import ast.MethodRefNode;
+import ast.MultiplyNode;
+import ast.NotEqualNode;
+import ast.NotNode;
+import ast.NullNode;
+import ast.OrNode;
+import ast.ParameterListNode;
+import ast.ParenNode;
+import ast.ProgramNode;
+import ast.StringNode;
+import ast.SubNode;
+import ast.SwitchCaseListNode;
+import ast.SwitchCaseNode;
+import ast.SwitchNode;
+import ast.VarDefNode;
+import ast.VarRefNode;
+import java.util.ArrayList;
 import java.util.List;
-import util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import util.BooleanValue;
+import util.Closure;
+import util.Environment;
+import util.FloatValue;
+import util.Function;
+import util.IntValue;
+import util.ListValue;
+import util.PLp1Error;
+import util.StringValue;
+import util.Value;
+import util.ValueFactory;
+import util.ValueFactory.ValueType;
 
 /**
- * @author carr
  *
+ * @author carr
  */
 public class EvalVisitor implements Visitor<Value> {
-    
-    private Environment env;
 
-    /**
-     *
-     */
+    private Environment env;
+    private ValueFactory valueFactory;
+
     public EvalVisitor(Environment env) {
         this.env = env;
-    }
-
-
-    @Override
-    public Value visit(AddNode n) throws PLp1Error{
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-
-        try {
-            if (left instanceof IntegerValue && right instanceof IntegerValue) 
-                return new IntegerValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    + ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new FloatValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    + ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    + ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    + ((FloatValue) n.getRightOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("addition error: " + n.accept(new SourceVisitor()));
-        }
-    }
-
-    @Override
-    public Value visit(SubNode n) throws PLp1Error {
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try { 
-            if (left instanceof IntegerValue && right instanceof IntegerValue) 
-                return new IntegerValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    - ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new FloatValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    - ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    - ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    - ((FloatValue) n.getRightOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("subtraction error: " + n.accept(new SourceVisitor()));
-        }
-    }
-
-    @Override
-    public Value visit(MultiplyNode n) throws PLp1Error{
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try{
-        if (left instanceof IntegerValue && right instanceof IntegerValue) 
-            return new IntegerValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                * ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-        
-        else if (left instanceof IntegerValue && right instanceof FloatValue) 
-            return new FloatValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                * ((FloatValue) n.getRightOperand().accept(this)).getVal());
-        else if (left instanceof FloatValue && right instanceof IntegerValue) 
-            return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                * ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-        else
-            return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                * ((FloatValue) n.getRightOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("multiply error: " + n.accept(new SourceVisitor()));
-        }
-    }
-
-    @Override
-    public Value visit(DivideNode n) throws PLp1Error {
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try {
-            if (left instanceof IntegerValue && right instanceof IntegerValue) 
-                return new IntegerValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    / ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new FloatValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    / ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    / ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new FloatValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    / ((FloatValue) n.getRightOperand().accept(this)).getVal());
-        
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("divide error: " + n.accept(new SourceVisitor()));
-        }
-    }
-/*
-    @Override
-    public Value visit(NumNode n)  throws PLp1Error{
-        return new IntegerValue(n.getNum());
-    }
-
-    @Override
-    public Value visit(IdNode n) throws PLp1Error{
-        return env.get(n.getName());
-    }
-
-    @Override
-    public Value visit(LetNode n)  throws PLp1Error{
-        String var = n.getVar();
-        Value val = (Value)n.getDefinition().accept(this);
-        Environment newEnv = new Environment();
-        newEnv.put(var, val);
-        return (Value)n.getBody().accept(new EvalVisitor(newEnv));
-            
-    }
-
-    @Override
-    public Value visit(MaxNode n) throws PLp1Error {
-        try {
-            IntegerValue param1 = (IntegerValue)n.getParam(0).accept(this);
-            IntegerValue param2 = (IntegerValue)n.getParam(1).accept(this);
-        
-            return new IntegerValue(Math.max(param1.getVal(), param2.getVal()));
-        } catch (ClassCastException e) {
-            throw new PLp1Error("Type erorr in max: "+n.accept(new SourceVisitor()));
-        }
-    }
-
-    @Override
-    public Value visit(MinNode n) throws PLp1Error {
-        try {
-            IntegerValue param1 = (IntegerValue)n.getParam(0).accept(this);
-            IntegerValue param2 = (IntegerValue)n.getParam(1).accept(this);
-        
-            return new IntegerValue(Math.min(param1.getVal(), param2.getVal()));
-        } catch (ClassCastException e) {
-            throw new PLp1Error("Type erorr in min: "+n.accept(new SourceVisitor()));
-        }
-    }
-
-    @Override
-    public Value visit(IntegerPNode n) throws PLp1Error {
-        if (n.getParam().accept(this) instanceof IntegerValue)
-            return new BooleanValue(true);
-       else
-            return new BooleanValue(false);
-    }
-*/
-    @Override
-    public Value visit(BooleanNode n) throws PLp1Error {
-        return new BooleanValue(n.getVal());
+        valueFactory = new ValueFactory();
     }
 
     @Override
     public Value visit(ArgumentListNode n) throws PLp1Error {
-        ListValue lv = new ListValue();
-        
-        for (ASTNode ast : n.getArguments())
-            lv.add((Value) ast.accept(this));
-        
-        return lv;
+        ArrayList<Value> list = new ArrayList<Value>();
+
+        for (ASTNode node : n.getArguments()) {
+            Value v = (Value) node.accept(this);
+            list.add(v);
+        }
+
+        return valueFactory.makeValue(ValueType.LIST).addValue(list);
     }
 
     @Override
     public Value visit(AssignNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("AssignNode: Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(BodyNode n) throws PLp1Error {
-        return (Value) n.getBody().get(n.getBody().size() - 1).accept(this);
+        Value v = valueFactory.makeValue(ValueType.VOID);
+        
+        for (ASTNode node : n.getBody()) 
+            v = (Value)node.accept(this);
+        
+        return v;
+    }
+
+    @Override
+    public Value visit(BooleanNode n) throws PLp1Error {
+        return valueFactory.makeValue(ValueType.BOOL).addValue(n.getVal());
     }
 
     @Override
     public Value visit(CallNode n) throws PLp1Error {
         Value v = (Value) n.getArgs().accept(this);
-        List<Value> argvals = (List<Value>)((ListValue)v).getVal();
-        
+        List<Value> argvals = (List<Value>) ((ListValue) v).get();
+
         try {
-            return ((BuiltinFunction) n.getFunc().accept(this)).invoke(env, argvals);
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("function call error: " + n.accept(new SourceVisitor()));
+            return ((Function) n.getFunc().accept(this)).invoke(env, argvals);
+        } catch (ClassCastException e) {
+            SourceVisitor sv = new SourceVisitor();
+            throw new PLp1Error("Invalid function call: " + n.accept(sv));
         }
     }
 
     @Override
     public Value visit(ClassNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("ClassNode: Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(SwitchCaseNode n) throws PLp1Error {
-        return (Value) n.getResultExpr().accept(this);
+        try {
+            BooleanValue tv = (BooleanValue) n.getTestExpr().accept(this);
+            if (tv.getBoolean()) {
+                return (Value)n.getResultExpr().accept(this);
+            }
+        } catch (ClassCastException e) {
+            throw new PLp1Error("Switch case test must return boolean "
+                    + n.accept(new SourceVisitor()));
+        }
+ 
+        return null;
     }
 
     @Override
     public Value visit(SwitchNode n) throws PLp1Error {
-        try {
-        for (ASTNode node : n.getCases().getSwitchCases()) {
-            SwitchCaseNode sw = (SwitchCaseNode) node;
-            
-            BooleanValue v = (BooleanValue) sw.getTestExpr().accept(this);
-            if (v.getVal() == true) {
-                return (Value) sw.accept(this);
-            }
-        }
+        Value v = (Value) n.getCases().accept(this);
+        if (v == null)
+            v = (Value)n.getDefaultCase().accept(this);
         
-        return (Value) n.getDefaultCase().accept(this);
-        
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("switch case error: " + n.accept(new SourceVisitor()));
-        }
+        return v;
     }
 
     @Override
     public Value visit(FunctionDefinitionNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("FunctionDefinition: Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ListValue params = (ListValue) n.getParams().accept(this);
+        
+        Closure cls = new Closure(n.getName(), params, n.getBody(), this.env);
+        this.env.put(n.getName(), cls);
+        
+        return cls;
     }
 
     @Override
     public Value visit(FloatNode n) throws PLp1Error {
-        return new FloatValue(n.getVal());
+        return valueFactory.makeValue(ValueType.FLOAT).addValue(n.getVal());
     }
 
     @Override
     public Value visit(LambdaNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("10Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Closure("lambda", (ListValue) n.getParams().accept(this), 
+                n.getBody(), this.env);
     }
 
     @Override
     public Value visit(IfNode n) throws PLp1Error {
-        try {
-            if (((BooleanValue)n.getTestExpr().accept(this)).getVal()) {
+         try {
+            Value bv = (Value) n.getTestExpr().accept(this);
+            if (((Boolean) bv.get()).booleanValue()) {
                 return (Value) n.getThenExpr().accept(this);
             } else {
                 return (Value) n.getElseExpr().accept(this);
             }
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("if operation error: " + n.accept(new SourceVisitor()));
+        } catch (ClassCastException e) {
+            SourceVisitor sv = new SourceVisitor();
+            throw new PLp1Error("Invalid boolean value in if test expression: " + n.getTestExpr().accept(sv));
         }
     }
 
     @Override
     public Value visit(IntegerNode n) throws PLp1Error {
-        return new IntegerValue(n.getVal());
+        return valueFactory.makeValue(ValueType.INT).addValue(n.getVal());
     }
 
     @Override
     public Value visit(ListNode n) throws PLp1Error {
-        ListValue lv = new ListValue();
-        for (ASTNode ast : n.getList()) {
-            lv.add((Value) ast.accept(this));
+        ListValue l = (ListValue) valueFactory.makeValue(ValueType.LIST);
+
+        for (ASTNode node : n.getList()) {
+            l.append((Value) node.accept(this));
         }
-        
-        return lv;
+
+        return l;
+
     }
 
     @Override
     public Value visit(MethodNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("14Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(MethodRefNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("15Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(CreateNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("16Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(StringNode n) throws PLp1Error {
-        return new StringValue(n.getString());
+        return valueFactory.makeValue(ValueType.STRING).addValue(n.getString());
     }
 
     @Override
     public Value visit(VarRefNode n) throws PLp1Error {
-        switch (n.getId()) {
-            case "first":
-                return new FirstFunc();
-            case "rest":
-                return new RestFunc();
-            case "insert":
-                return new InsertFunc();
-            case "list":
-                return new ListFunc();
-            case "emptyp":
-                return new EmptypFunc();
-            case "pairp":
-                return new PairpFunc();
-            case "listp":
-                return new ListpFunc();
-            case "equalp":
-                return new EqualpFunc();
-            case "length":
-                return new LengthFunc();
-            case "numberp":
-                return new NumberpFunc();
-            case "exit":
-                return new ExitFunc();       
-        }
-        return new NullValue();
+        return env.get(n.getId());
     }
 
     @Override
     public Value visit(LetNode n) throws PLp1Error {
-         n.getLetVarDecls().accept(this);
-         return (Value) n.getBody().accept(this);
+        ListValue val = (ListValue) n.getLetVarDecls().accept(this);
+
+        List<String> vars = new ArrayList<>();
+        List<Value> values = new ArrayList<>();
+        
+        for (Value v : (List<Value>)val.get()) {
+            ListValue inner = (ListValue) v;
+            // each inner list has exactly 2 elements, the var and value
+            vars.add((String) ((StringValue)inner.get(0)).get());
+            values.add(inner.get(1));
+        }
+        
+        Environment newEnv = new Environment(vars, values, this.env);
+        Closure cls = new Closure("let", new ListValue(), n.getBody(), newEnv);
+        return cls.invoke(newEnv, new ArrayList<Value>());
+    }
+
+    @Override
+    public Value visit(AddNode n) throws PLp1Error {
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.INT).addValue(((IntValue) lop).getInt() + ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() + ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((IntValue) lop).getInt() + ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() + ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " + " + rop);
+        }
+    }
+
+    @Override
+    public Value visit(SubNode n) throws PLp1Error {
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.INT).addValue(((IntValue) lop).getInt() - ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() - ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((IntValue) lop).getInt() - ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() - ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " - " + rop);
+        }
+    }
+
+    @Override
+    public Value visit(MultiplyNode n) throws PLp1Error {
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.INT).addValue(((IntValue) lop).getInt() * ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() * ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((IntValue) lop).getInt() * ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() * ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " * " + rop);
+        }
+    }
+
+    @Override
+    public Value visit(DivideNode n) throws PLp1Error {
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.INT).addValue(((IntValue) lop).getInt() / ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() / ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((IntValue) lop).getInt() / ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.FLOAT).addValue(((FloatValue) lop).getFloat() / ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " / " + rop);
+        }
     }
 
     @Override
     public Value visit(NotNode n) throws PLp1Error {
-        try {
-            return new BooleanValue(!((BooleanValue) n.getOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("not operation error: " + n.accept(new SourceVisitor()));
+         Value lop = (Value) n.getOperand().accept(this);
+
+        if (lop instanceof BooleanValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(!((BooleanValue) lop).getBoolean());
+        } else {
+            throw new PLp1Error("Incompatible type: !" + lop);
         }
     }
 
     @Override
     public Value visit(OrNode n) throws PLp1Error {
-        try {
-            return new BooleanValue(((BooleanValue) n.getLeftOperand().accept(this)).getVal() 
-                    || ((BooleanValue) n.getRightOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("or operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof BooleanValue && rop instanceof BooleanValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((BooleanValue) lop).getBoolean() || ((BooleanValue) rop).getBoolean());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " || " + rop);
         }
     }
 
     @Override
     public Value visit(AndNode n) throws PLp1Error {
-        try {
-            return new BooleanValue(((BooleanValue) n.getLeftOperand().accept(this)).getVal() 
-                    && ((BooleanValue) n.getRightOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("and operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof BooleanValue && rop instanceof BooleanValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((BooleanValue) lop).getBoolean() && ((BooleanValue) rop).getBoolean());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " && " + rop);
         }
     }
 
     @Override
     public Value visit(EqualNode n) throws PLp1Error {
-        try {
-            return new BooleanValue(((Value) n.getLeftOperand().accept(this)).getVal()
-                    .equals(((Value) n.getRightOperand().accept(this)).getVal()));
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("equal operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() == ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() == ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() == ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() == ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " == " + rop);
         }
     }
 
     @Override
     public Value visit(NotEqualNode n) throws PLp1Error {
-        try { 
-            return new BooleanValue(!((Value) n.getLeftOperand().accept(this)).getVal()
-                    .equals(((Value) n.getRightOperand().accept(this)).getVal()));
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("notequal operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() != ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() != ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() != ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() != ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " != " + rop);
         }
     }
 
     @Override
     public Value visit(LessNode n) throws PLp1Error {
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try {
-        
-            if (left instanceof FloatValue && right instanceof FloatValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    < ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    < ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    < ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    < ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            
-         } catch (ClassCastException cce) {
-            throw new PLp1Error("less operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() < ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() < ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() < ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() < ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " < " + rop);
         }
     }
 
     @Override
     public Value visit(LessEqualNode n) throws PLp1Error {
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try {
-        
-            if (left instanceof FloatValue && right instanceof FloatValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    <= ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    <= ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    <= ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    <= ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("lessequal operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() <= ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() <= ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() <= ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() <= ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " <= " + rop);
         }
     }
 
     @Override
     public Value visit(GreaterNode n) throws PLp1Error {
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try {
-        
-            if (left instanceof FloatValue && right instanceof FloatValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    > ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    > ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    > ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    > ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-        
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("greater operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() > ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() > ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() > ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() > ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " > " + rop);
         }
     }
 
     @Override
     public Value visit(GreaterEqualNode n) throws PLp1Error {
-        Value left = (Value) n.getLeftOperand().accept(this);
-        Value right = (Value) n.getRightOperand().accept(this);
-        
-        try {
-            if (left instanceof FloatValue && right instanceof FloatValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    >= ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof IntegerValue && right instanceof FloatValue) 
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    >= ((FloatValue) n.getRightOperand().accept(this)).getVal());
-            else if (left instanceof FloatValue && right instanceof IntegerValue) 
-                return new BooleanValue(((FloatValue) n.getLeftOperand().accept(this)).getVal() 
-                    >= ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-            else
-                return new BooleanValue(((IntegerValue) n.getLeftOperand().accept(this)).getVal() 
-                    >= ((IntegerValue) n.getRightOperand().accept(this)).getVal());
-        } catch (ClassCastException cce) {
-            throw new PLp1Error("greaterequal operation error: " + n.accept(new SourceVisitor()));
+        Value lop = (Value) n.getLeftOperand().accept(this);
+        Value rop = (Value) n.getRightOperand().accept(this);
+
+        if (lop instanceof IntValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() >= ((IntValue) rop).getInt());
+        } else if (lop instanceof FloatValue && rop instanceof IntValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() >= ((IntValue) rop).getInt());
+        } else if (lop instanceof IntValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((IntValue) lop).getInt() >= ((FloatValue) rop).getFloat());
+        } else if (lop instanceof FloatValue && rop instanceof FloatValue) {
+            return valueFactory.makeValue(ValueType.BOOL).addValue(((FloatValue) lop).getFloat() >= ((FloatValue) rop).getFloat());
+        } else {
+            throw new PLp1Error("Incompatible types: " + lop + " >= " + rop);
         }
     }
 
     @Override
     public Value visit(ParenNode n) throws PLp1Error {
-        return (Value) n.getExpr().accept(this);
+        return (Value)n.getExpr().accept(this);
     }
 
     @Override
     public Value visit(ParameterListNode n) throws PLp1Error {
-         throw new UnsupportedOperationException("ParameterList: Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ListValue val = (ListValue) valueFactory.makeValue(ValueType.LIST);
+        
+        for (ASTNode node : n.getIdList())
+            val.append((Value) node.accept(this));
+        
+        return val;
     }
 
     @Override
     public Value visit(LetDeclNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("31Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ListValue letDecl = (ListValue) valueFactory.makeValue(ValueType.LIST);
+        
+        letDecl.append(valueFactory.makeValue(ValueType.STRING).addValue(n.getVar()));
+        letDecl.append((Value) n.getValueExpr().accept(this));
+        
+        return letDecl;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(LetDeclListNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("32Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ListValue letDecls = (ListValue) valueFactory.makeValue(ValueType.LIST);
+        
+        for (ASTNode node : n.getDecls()) {
+            ListValue val = (ListValue) node.accept(this);
+            letDecls.append(val);
+        }
+        
+        return letDecls;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(SwitchCaseListNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("33Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (ASTNode node : n.getSwitchCases()) {
+            Value val = (Value) node.accept(this);
+            if (val != null) {
+                return (Value) ((SwitchCaseNode)node).getResultExpr().accept(this);
+            }
+        }
+        return null;
     }
 
     @Override
     public Value visit(NullNode n) throws PLp1Error {
-        return new NullValue();
+        return valueFactory.makeValue(ValueType.LIST);
     }
 
     @Override
     public Value visit(ProgramNode n) throws PLp1Error {
-        return (Value) n.getProgram().get(0).accept(this);
+        Value v = valueFactory.makeValue(ValueType.VOID);
+        for (ASTNode node: n.getProgram())
+            v = (Value)node.accept(this);
+        
+        return v;
     }
 
     @Override
     public Value visit(InstanceVariableListNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("InstanceVariableList: Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("2Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(MethodListNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("MethodList: Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("3Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Value visit(VarDefNode n) throws PLp1Error {
-        throw new UnsupportedOperationException("VarDef: Not supported yet."); 
+        return valueFactory.makeValue(ValueType.STRING).addValue(n.getLabel());
     }
 }

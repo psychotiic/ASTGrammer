@@ -7,12 +7,12 @@ package util;
  * @author carr
  *
  */
-public class BooleanValue extends Value {
+public class IntValue extends Value {
 
 	/**
 	 * 
 	 */
-	public BooleanValue() {
+	public IntValue() {
 	}
         
         public Value addValue(Object val) {
@@ -20,17 +20,19 @@ public class BooleanValue extends Value {
             return this;
         }
 	
-	public boolean getBoolean() {
-		return ((Boolean)val).booleanValue();
+	public int getInt() {
+		return ((Integer)val).intValue();
 	}
 
+	@Override
 	public String toString() {
 		return val.toString();
 	}
 
     @Override
     public boolean equal(Object val) {
-        return (val instanceof BooleanValue &&
-                ((BooleanValue)val).getBoolean() == getBoolean());
+        return (val instanceof IntValue &&
+                ((IntValue)val).getInt() == getInt());
     }
+
 }
